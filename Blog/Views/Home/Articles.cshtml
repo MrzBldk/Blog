@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Blog.Models.Article>
+@{
+    ViewData["Title"] = "Articles";
+}
+
+<div class="card-columns">
+    @foreach (var article in Model)
+    {
+        <div class="card d-inline-flex">
+            @if (article.HeroImage != null)
+            {
+                <img class="card-img-top" src="@GetImgSrc(article)" alt="Card image cap">
+            }
+            <div class="card-body">
+                <h4 class="badge badge-secondary">@article.Category</h4> <h4 class="badge badge-info">@article.PublicationTime.ToString()</h4><br />
+                @foreach (var tag in article.Tags)
+                {
+                    <h6 class="badge badge-primary">@tag.TagText</h6>
+                }
+                <h5 class="card-title">@article.Name</h5>
+                <p class="card-text">@article.ShortDescription</p>
+                <a asp-controller="Home" asp-action="Article" asp-route-id="@article.ArticleId" class="btn btn-primary">Go to article</a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Home" asp-action="EditArticle" asp-route-id="@article.ArticleId" class="btn btn-primary">Edit article</a>
+                }
+            </div>
+            @if (article.BlogUser != null)
+            {
+                <div class="card-footer">
+                    Written by @article.BlogUser.Email
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@functions
+{
+    public string GetImgSrc(Article article)
+    {
+        string imageBase64Data = Convert.ToBase64String(article.HeroImage);
+        return string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+    }
+}

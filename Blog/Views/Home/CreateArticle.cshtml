@@ -1,0 +1,43 @@
+﻿@model Blog.ViewModels.ArticleViewModel
+@{
+    ViewBag.Title = "Article creation";
+}
+<form method="post" enctype="multipart/form-data" asp-action="CreateArticle" asp-controller="Home">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Name">Title</label><br />
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="ShortDescription">Short description</label><br />
+        <input class="form-control" asp-for="ShortDescription" />
+        <span asp-validation-for="ShortDescription"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label><br />
+        <textarea class="form-control" asp-for="Description" ></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div>
+        <input type="file" id="uploadedFile" name="uploadedFile" />
+    </div>
+    <div>
+        <label asp-for="Category"></label><br />
+        <input class="form-control" asp-for="Category" />
+        <span asp-validation-for="Category"></span>
+    </div>
+    <div>
+        <label asp-for="Tags"></label><br />
+        <input class="form-control" asp-for="Tags" />
+        <span asp-validation-for="Tags"></span>
+    </div>
+    <div>
+        <label asp-for="CheckMeAsAuthor">Check me as author?</label><br />
+        <input asp-for="CheckMeAsAuthor" />
+        <span asp-validation-for="CheckMeAsAuthor"></span>
+    </div>
+    <div>
+        <input class="btn btn-outline-secondary" type="submit" value="Create" />
+    </div>
+</form>

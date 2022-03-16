@@ -1,0 +1,26 @@
+﻿@model Blog.ViewModels.ArticleViewModel
+@{
+    ViewData["Title"] = "Edit Article";
+}
+<form method="post" asp-action="EditArticle">
+    <div>
+        <label class="control-label" asp-for="Description"></label><br />
+        <textarea class="form-control"  asp-for="Description"></textarea>
+    </div>
+    <div>
+        <label class="control-label" asp-for="ShortDescription"></label><br />
+        <input class="form-control" asp-for="ShortDescription" />
+    </div>
+    <div>
+        <label class="control-label" asp-for="Category"></label><br />
+        <input class="form-control" asp-for="Category" />
+    </div>
+    <div>
+        <label class="control-label" asp-for="Tags"></label><br />
+        <input class="form-control" asp-for="Tags" />
+    </div>
+    <div>
+        <input class="control-label" type="hidden" asp-for="Id" />
+    </div>
+    <input class="btn btn-outline-secondary" type="submit" value="Edit"/>
+</form>

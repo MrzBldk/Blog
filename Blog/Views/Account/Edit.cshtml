@@ -1,0 +1,35 @@
+﻿@model Blog.ViewModels.EditUserViewModel
+@{
+    ViewBag.Title = "Account edit";
+}
+<h2>Login change</h2>
+<form method="post" asp-action="Edit" asp-controller="Account">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Login</label>
+        <input type="text" asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-outline-secondary" />
+    </div>
+</form>
+<h2>Password change</h2>
+<form method="post" asp-action="ChangePassword" asp-controller="Account">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Email" />
+    <div class="form-group">
+        <label asp-for="OldPassword" class="control-label">Old password</label>
+        <input type="text" asp-for="OldPassword" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NewPassword" class="control-label">New password</label>
+        <input type="text" asp-for="NewPassword" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-outline-secondary" />
+    </div>
+</form>

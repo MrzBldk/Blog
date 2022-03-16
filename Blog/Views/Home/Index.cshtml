@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h3>You are logged in as @User.Identity.Name.</h3>
+    
+    <a class="btn btn-primary" asp-controller="Account" asp-action="Edit">Edit account data</a>
+
+    <form class="d-inline-block" asp-controller="Account" asp-action="Delete" method="post">
+        <input type="submit" class="btn btn-danger" value="Delete account"/>
+    </form>
+
+    <form class="d-inline-block" method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Logout" class="btn btn-dark"/>
+    </form>
+}
+else
+{
+    <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Login</a>
+    <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Registration</a>
+}
