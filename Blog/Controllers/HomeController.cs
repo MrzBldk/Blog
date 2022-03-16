@@ -49,7 +49,7 @@ namespace Blog.Controllers
         [HttpGet]
         public async Task<IActionResult> Article(int id)
         {
-            return View(await _blogcontext.Articles.Include(x => x.BlogUser).FirstOrDefaultAsync(x => x.ArticleId == id));
+            return View(await _blogcontext.Articles.Include(x => x.BlogUser).Include(x=>x.Tags).FirstOrDefaultAsync(x => x.ArticleId == id));
         }
 
         [HttpGet]

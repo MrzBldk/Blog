@@ -9,19 +9,19 @@
             Written by @Model.BlogUser.Email
         </div>
     }
-    <div class="card-body">
-        <h4 class="badge badge-secondary">@Model.Category</h4><br />
-        @foreach (var tag in Model.Tags)
-        {
-            <h6 class="badge badge-primary">@tag.TagText</h6>
-        }
-        <h5 class="card-title">@Model.Name</h5>
-        <p class="card-text">@Model.Description</p>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <a asp-controller="Home" asp-action="EditArticle" asp-route-id="@Model.ArticleId" class="btn btn-primary">Edit article</a>
-        }
-    </div>
+<div class="card-body">
+    <h4 class="badge badge-secondary">@Model.Category</h4> <h4 class="badge badge-info">@Model.PublicationTime.ToString()</h4><br />
+    @foreach (var tag in Model.Tags)
+    {
+        <h6 class="badge badge-primary">@tag.TagText</h6>
+    }
+    <h5 class="card-title">@Model.Name</h5>
+    <p class="card-text">@Model.Description</p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-controller="Home" asp-action="EditArticle" asp-route-id="@Model.ArticleId" class="btn btn-primary">Edit article</a>
+    }
+</div>
     @if (Model.HeroImage != null)
     {
         <img class="card-img-bottom" src="@GetImgSrc()" alt="Card image cap">
