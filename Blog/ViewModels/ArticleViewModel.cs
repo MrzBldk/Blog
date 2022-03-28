@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace Blog.ViewModels
@@ -12,8 +8,10 @@ namespace Blog.ViewModels
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Title")]
         public string Name { get; set; }
 
+        [Display(Name = "Short Description")]
         public string ShortDescription { get; set; }
         
         [Required]
@@ -24,6 +22,7 @@ namespace Blog.ViewModels
 
         public string Tags { get; set; }
 
+        [Display(Name = "Check me as author?")]
         public bool CheckMeAsAuthor { get; set; }
     }
 }

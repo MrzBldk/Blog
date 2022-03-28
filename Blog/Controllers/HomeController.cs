@@ -1,16 +1,14 @@
 ﻿using Blog.Models;
 using Blog.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.IO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
 
 namespace Blog.Controllers
 {
@@ -76,11 +74,18 @@ namespace Blog.Controllers
                     ms.Dispose();
                 }
 
-                string[] tags = model.Tags.Split(' ');
                 List<Tag> tagsList = new();
-                foreach(var tag in tags)
+                if (!string.IsNullOrWhiteSpace(model.Tags))
                 {
-                    tagsList.Add(new() { TagText = tag });
+                    string[] tags = model.Tags.Split(' ');
+                    if (tags.Length == 0)
+                        tags[0] = model.Tags;
+                    foreach (var tag in tags)
+                    {
+                        Tag addtag = await _blogcontext.Tags.FindAsync(tag);
+                        addtag ??= new() { TagText = tag };
+                        tagsList.Add(addtag);
+                    }
                 }
 
                 Article article = new()
@@ -118,29 +123,42 @@ namespace Blog.Controllers
                 Description = article.Description, 
                 Category = article.Category, 
                 ShortDescription = article.ShortDescription,
-                Tags = tags
+                Tags = tags,
+                Name = article.Name
             }); 
         }
 
         [HttpPost]
         public async Task<IActionResult> EditArticle(ArticleViewModel model)
         {
-            Article article = await _blogcontext.Articles.FindAsync(model.Id);
-
-            article.Description = model.Description;
-            article.Category = model.Category;
-            article.ShortDescription = model.ShortDescription;
-
-            if (!string.IsNullOrWhiteSpace(model.Tags))
+            if (ModelState.IsValid)
             {
-                string[] tags = model.Tags.Split(' ');
-                foreach (var tag in tags)
-                    article.Tags.Add(new() { TagText = tag });
-            }
-            _blogcontext.Articles.Update(article);
-            await _blogcontext.SaveChangesAsync();
+                Article article = await _blogcontext.Articles.Include(x => x.Tags).FirstOrDefaultAsync(x => x.ArticleId == model.Id);
 
-            return RedirectToAction("Articles");
+                article.Name = model.Name;
+                article.Description = model.Description;
+                article.Category = model.Category;
+                article.ShortDescription = model.ShortDescription;
+
+                if (!string.IsNullOrWhiteSpace(model.Tags))
+                {
+                    string[] tags = model.Tags.Split(' ');
+                    if (tags.Length == 0)
+                        tags[0] = model.Tags;
+                    article.Tags.Clear();
+                    foreach (var tag in tags)
+                    {
+                        Tag addtag = await _blogcontext.Tags.FindAsync(tag);
+                        addtag ??= new() { TagText = tag };
+                        article.Tags.Add(addtag);
+                    }
+                }
+                _blogcontext.Articles.Update(article);
+                await _blogcontext.SaveChangesAsync();
+
+                return RedirectToAction("Articles");
+            }
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

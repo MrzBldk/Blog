@@ -5,7 +5,7 @@
 <form method="post" enctype="multipart/form-data" asp-action="CreateArticle" asp-controller="Home">
     <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <label asp-for="Name">Title</label><br />
+        <label asp-for="Name"></label><br />
         <input class="form-control" asp-for="Name" />
         <span asp-validation-for="Name"></span>
     </div>
@@ -33,7 +33,7 @@
         <span asp-validation-for="Tags"></span>
     </div>
     <div>
-        <label asp-for="CheckMeAsAuthor">Check me as author?</label><br />
+        <label asp-for="CheckMeAsAuthor"></label><br />
         <input asp-for="CheckMeAsAuthor" />
         <span asp-validation-for="CheckMeAsAuthor"></span>
     </div>

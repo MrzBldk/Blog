@@ -1,5 +1,3 @@
-using System;
-
 namespace Blog.ViewModels
 {
     public class ErrorViewModel
